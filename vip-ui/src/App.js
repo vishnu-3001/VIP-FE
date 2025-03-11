@@ -1,12 +1,14 @@
 import './App.css';
-import Document from './Components/Document';
 import DocumentFetch from './Components/DocumentFetch';
+import { DocumentProvider } from './Store/DocumentContext';
+
 
 function App() {
   return (
     <div>
-      <DocumentFetch></DocumentFetch>
-      <Document></Document>
+      <DocumentProvider>
+        <DocumentFetch></DocumentFetch>
+      </DocumentProvider>
     </div>
   );
 }

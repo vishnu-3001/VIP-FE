@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
 import fetchData from "../Services/APIservice";
 
-export default function useGet(initialData, config) {
-    const [data, setData] = useState(initialData);
+export default function useGet(config) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -14,7 +13,7 @@ export default function useGet(initialData, config) {
                 ...config,
                 body: payload
             });
-            setData(resData);
+            return resData;
         } catch (err) {
             setError(err.message || 'An error occurred');
         } finally {
@@ -23,7 +22,6 @@ export default function useGet(initialData, config) {
     }, [config]);
 
     return {
-        data,
         error,
         loading,
         send

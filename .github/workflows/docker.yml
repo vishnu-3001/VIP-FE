@@ -11,57 +11,65 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # ✅ Step 1: Checkout the repository
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # ✅ Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # ✅ Step 2: Set up Docker Buildx (for multi-arch support)
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      # ✅ Step 2: Set up Docker Buildx (for multi-arch support)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    # ✅ Step 3: Configure AWS Credentials
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+      # ✅ Step 3: Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-    # ✅ Step 4: Login to Amazon ECR
-    - name: Login to Amazon ECR
-      run: |
-        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      # ✅ Step 4: Login to Amazon ECR
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-    # ✅ Step 5: Build and Tag Docker Image
-    - name: Build Docker image
-      run: |
-        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest .
-        docker tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      # ✅ Step 5: Build and Tag Docker Image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest .
+          docker tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-    # ✅ Step 6: Push Docker Image to ECR
-    - name: Push Docker image to ECR
-      run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      # ✅ Step 6: Push Docker Image to ECR
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-  update-service:
-    runs-on: ubuntu-latest
-    needs: build-and-push
+#   update-service:
+#     runs-on: ubuntu-latest
+#     needs: build-and-push
 
-    steps:
-    # ✅ Step 7: Update AWS App Runner Service
-    - name: Update AWS App Runner Service
-      run: |
-        aws apprunner update-service \
-          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
-          --source-configuration "ImageRepository={ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest,ImageRepositoryType=ECR,ImageConfiguration={Port=3000}}" \
-          --instance-configuration "Cpu=1 vCpu,Memory=2 GB" \
-          --region ${{ secrets.AWS_REGION }}
+#     steps:
+#       # ✅ Step 1: Configure AWS Credentials
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+#       - name: Update AWS App RUNNER Service
+#         run: |
+#           aws apprunner update-service \
+#             --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
+#             --source-configuration "ImageRepository={ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest,ImageRepositoryType=ECR,ImageConfiguration={Port=3000}}" \
+#             --instance-configuration "Cpu=1 vCpu,Memory=2 GB" \
+#             --region ${{ secrets.AWS_REGION }}
+#       - name: Update Health Check Configuration
+#         run: |
+#           aws apprunner update-service \
+#           --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
+#           --health-check-configuration "Protocol=HTTP,Path=/health.html,Interval=10,Timeout=5,HealthyThreshold=1,UnhealthyThreshold=5" \
+#           --region ${{ secrets.AWS_REGION }}
 
-    # ✅ Step 8: Update Health Check Configuration
-    - name: Update Health Check Configuration
-      run: |
-        aws apprunner update-service \
-          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
-          --health-check-configuration "Protocol=HTTP,Path=/health.html,Interval=10,Timeout=5,HealthyThreshold=1,UnhealthyThreshold=5" \
-          --region ${{ secrets.AWS_REGION }}
+    
+
+

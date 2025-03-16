@@ -53,7 +53,7 @@ jobs:
     - name: Update AWS App Runner Service
       run: |
         aws apprunner update-service \
-          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_ID }} \
+          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
           --source-configuration "ImageRepository={ImageIdentifier=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest,ImageRepositoryType=ECR,ImageConfiguration={Port=3000}}" \
           --instance-configuration "Cpu=1 vCpu,Memory=2 GB" \
           --region ${{ secrets.AWS_REGION }}
@@ -62,6 +62,6 @@ jobs:
     - name: Update Health Check Configuration
       run: |
         aws apprunner update-service \
-          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_ID }} \
+          --service-arn arn:aws:apprunner:${{ secrets.AWS_REGION }}:${{ secrets.AWS_ACCOUNT_ID }}:service/vipfe/${{ secrets.APP_RUNNER_SERVICE_NAME }} \
           --health-check-configuration "Protocol=HTTP,Path=/health.html,Interval=10,Timeout=5,HealthyThreshold=1,UnhealthyThreshold=5" \
           --region ${{ secrets.AWS_REGION }}

@@ -1,29 +1,25 @@
-# Use official Node.js image as the base
-FROM node:20-alpine as build
+# Use an ARM-compatible Node.js image for Apple Silicon
+FROM node:20-alpine
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first (to optimize caching)
-COPY package.json package-lock.json ./
+# Copy package files first for efficient caching
+COPY package*.json ./
 
 # Install dependencies
-RUN npm install --production
+RUN npm install
 
-# Copy the entire project into the container
+# Copy project files into the container
 COPY . .
 
-# Build the React project
+# Build the React app
 RUN npm run build
 
-# Use Nginx to serve the app
-FROM nginx:alpine
-
-# Copy the build output to Nginx html directory
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Expose port 80
+# Expose port 3000 for AWS App Runner
 EXPOSE 3000
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+
+
+# Start the app
+CMD ["npm", "start"]

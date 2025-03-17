@@ -17,7 +17,6 @@ export default function DocumentFetch() {
             const endpoint = `drive/download?file_id=${file_id}`;
             const data=await send(endpoint);
             if (data) {
-                console.log(data);
                 documentctx.setDocument({
                     original: data.original || '', 
                     enhanced: data.enhanced || []

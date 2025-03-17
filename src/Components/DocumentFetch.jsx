@@ -12,7 +12,8 @@ export default function DocumentFetch() {
         const formData = Object.fromEntries(fd.entries());
         const link = formData['form-link'];
         const match = link.match(/[-\w]{25,}/);
-        const file_id = match ? match[0] : null;
+        // const file_id = match ? match[0] : null;
+        const file_id=2;
         if (file_id) {
             const endpoint = `drive/download?file_id=${file_id}`;
             const data=await send(endpoint);

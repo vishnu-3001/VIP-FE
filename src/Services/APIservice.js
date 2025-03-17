@@ -1,7 +1,7 @@
-// const API_BASE_URL= "https://bt2cpjusui.us-east-2.awsapprunner.com/api/v1";
+const API_BASE_URL= "https://bt2cpjusui.us-east-2.awsapprunner.com/api/v1";
 // const API_BASE_URL= "http://localhost:8000/api/v1";
 // const API_BASE_URL= "http://localhost:8000";
-const API_BASE_URL= "https://bt2cpjusui.us-east-2.awsapprunner.com";
+// const API_BASE_URL= "https://bt2cpjusui.us-east-2.awsapprunner.com";
 export default async function fetchData(endpoint,{}){
   console.log(endpoint);
     try {

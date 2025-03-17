@@ -8,8 +8,8 @@ function App() {
   return (
     <div>
       <DocumentProvider>
-        {/* <DocumentFetch></DocumentFetch> */}
-        <Health></Health>
+        <DocumentFetch></DocumentFetch>
+        {/* <Health></Health> */}
       </DocumentProvider>
     </div>
   );

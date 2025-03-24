@@ -23,10 +23,12 @@ export default function Login() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
+    const email=urlParams.get("email")
     if (token) {
-      authContext.login(token); // Update auth context
-      sessionStorage.setItem("token", token); // Store token securely
-      navigate("/DocumentFetch", { replace: true }); // Redirect to DocumentFetch
+      authContext.login(token); 
+      sessionStorage.setItem("token", token); 
+      sessionStorage.setItem("email",email);
+      navigate("/DocumentFetch", { replace: true }); 
     }
   }, []);
 

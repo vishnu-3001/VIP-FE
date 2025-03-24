@@ -1,17 +1,21 @@
 import './App.css';
-import DocumentFetch from './Components/DocumentFetch';
-import { DocumentProvider } from './Store/DocumentContext';
-import Health from './Components/Health';
-
-
+import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+import Intro from './Components/Intro';
+import Login from './Components/Login';
+import DocumentFetch from './Components/DocumentFetch'
+const router=createBrowserRouter(
+  [
+    {path:'/',element:<Intro></Intro>,
+      children:[
+        {path:'/Login',element:<Login></Login>},
+        {path:'/DocumentFetch',element:<DocumentFetch></DocumentFetch>}
+      ]
+    }
+  ]
+)
 function App() {
   return (
-    <div>
-      <DocumentProvider>
-        <DocumentFetch></DocumentFetch>
-        {/* <Health></Health> */}
-      </DocumentProvider>
-    </div>
+    <RouterProvider router={router}></RouterProvider>
   );
 }
 

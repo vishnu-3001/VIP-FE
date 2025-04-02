@@ -9,7 +9,6 @@ export default function Login() {
 
   async function handleGooglelogin() {
     try {
-      console.log(process.env.REACT_APP_LOCAL_BE_URL)
       const response = await fetch(`${process.env.REACT_APP_BE_URL}api/v1/auth`);
       const data = await response.json();
       if (data.auth_url) {

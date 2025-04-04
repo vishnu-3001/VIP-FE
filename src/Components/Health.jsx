@@ -14,7 +14,6 @@ export default function Health() {
                 enhanced: response.status || []
             });
         } catch (error) {
-            console.error("Health check failed:", error);
         }
     }
 

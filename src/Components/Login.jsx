@@ -15,7 +15,6 @@ export default function Login() {
         window.location.href = data.auth_url;
       }
     } catch (error) {
-      console.error("Failed to initiate OAuth", error);
     }
   }
 

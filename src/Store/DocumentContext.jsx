@@ -1,37 +1,38 @@
-import { createContext } from "react";
-import { useState } from "react";
-const DocumentContext=createContext({
-    document:{},
-    userChoice:'',
-    setChoice:()=>{},
-    setDocument:()=>{}
+import { createContext, useState } from "react";
+
+const DocumentContext = createContext({
+  doc_id: "",
+  documentText: "",
+  enhancedDocumentText: "",
+  documentTitle: "",
+  setDocId: () => {},
+  setDocumentText: () => {},
+  setEnhancedDocumentText: () => {},
+  setDocumentTitle: () => {}
 });
-export function  DocumentProvider({children}){
-    const[view,setView]=useState('original');
-    const [doc,setDoc]=useState({
-        original:'',
-        enhanced:[]
-    })
-    function setUserView(selectedView){
-        setView(selectedView);
-    }
-    function setDocument(data){
-        setDoc(prev=>({
-            ...prev,
-            original:data.original,enhanced:data.enhanced
-        }))
-    }
-    const value={
-        document:doc,
-        userChoice:view,
-        setChoice:setUserView,
-        setDocument
-    }
-    return(
-        <DocumentContext value={value}>
-            {children}
-        </DocumentContext>
-    )
-    
+
+export function DocumentContextProvider({ children }) {
+  const [docId, setDocId] = useState("");
+  const [documentText, setDocumentText] = useState("");
+  const [enhancedDocumentText, setEnhancedDocumentText] = useState("");
+  const [documentTitle, setDocumentTitle] = useState("");
+
+  const contextValue = {
+    doc_id: docId,
+    documentText: documentText,
+    enhancedDocumentText: enhancedDocumentText,
+    documentTitle: documentTitle,
+    setDocId: setDocId,
+    setDocumentText: setDocumentText,
+    setEnhancedDocumentText: setEnhancedDocumentText,
+    setDocumentTitle: setDocumentTitle
+  };
+
+  return (
+    <DocumentContext.Provider value={contextValue}>
+      {children}
+    </DocumentContext.Provider>
+  );
 }
-export default DocumentContext
+
+export default DocumentContext;

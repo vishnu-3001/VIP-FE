@@ -1,0 +1,98 @@
+.document-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .document-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .document-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .document-tabs button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .document-tabs button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .document-view-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .document-view {
+    padding: 20px;
+    background-color: white;
+  }
+  
+  .document-content {
+    line-height: 1.6;
+  }
+  
+  .document-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+  }
+  
+  .side-by-side-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .side-by-side-container .document-view {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow: auto;
+    max-height: 800px;
+  }
+  
+  .no-document {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .drive-button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .drive-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 768px) {
+    .side-by-side-container {
+      flex-direction: column;
+    }
+  }

@@ -2,13 +2,15 @@ import './App.css';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import Intro from './Components/Intro';
 import Login from './Components/Login';
-import DocumentFetch from './Components/DocumentFetch'
+import DocumentViewer from './Components/DocumentViewer';
 const router=createBrowserRouter(
   [
     {path:'/',element:<Intro></Intro>,
       children:[
         {path:'/Login',element:<Login></Login>},
-        {path:'/DocumentFetch',element:<DocumentFetch></DocumentFetch>}
+        {path:'/DocumentFetch',element:
+          <DocumentViewer></DocumentViewer>
+        }
       ]
     }
   ]

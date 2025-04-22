@@ -19,15 +19,13 @@ export default function Document() {
   const [viewMode, setViewMode] = useState("original");
   const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
-
-  // Dynamic render when viewMode or document changes
   useEffect(() => {
     const containerId = viewMode === "original" ? "original-docx-container" : "enhanced-docx-container";
     const container = document.getElementById(containerId);
 
     if (!container) return;
 
-    container.innerHTML = ""; // Clear previous render
+    container.innerHTML = "";
 
     if (viewMode === "enhanced" && enhancedDocumentBlob) {
       renderAsync(enhancedDocumentBlob, container);

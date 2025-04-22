@@ -2,30 +2,35 @@ import { createContext, useState } from "react";
 
 const DocumentContext = createContext({
   doc_id: "",
-  documentText: "",
+  documentBlob: null,
   enhancedDocumentText: "",
   documentTitle: "",
+  enhancedDocumentBlob:null,
   setDocId: () => {},
-  setDocumentText: () => {},
+  setDocumentBlob: () => {},
   setEnhancedDocumentText: () => {},
-  setDocumentTitle: () => {}
+  setDocumentTitle: () => {},
+  setEnhancedDocumentBlob:()=>{}
 });
 
 export function DocumentContextProvider({ children }) {
   const [docId, setDocId] = useState("");
-  const [documentText, setDocumentText] = useState("");
+  const [documentBlob, setDocumentBlob] = useState(null);
   const [enhancedDocumentText, setEnhancedDocumentText] = useState("");
   const [documentTitle, setDocumentTitle] = useState("");
+  const[enhancedDocumentBlob,setEnhancedDocumentBlob]=useState(null);
 
   const contextValue = {
     doc_id: docId,
-    documentText: documentText,
+    documentText: documentBlob,
     enhancedDocumentText: enhancedDocumentText,
     documentTitle: documentTitle,
+    enhancedDocumentBlob:enhancedDocumentBlob,
     setDocId: setDocId,
-    setDocumentText: setDocumentText,
+    setDocumentBlob: setDocumentBlob,
     setEnhancedDocumentText: setEnhancedDocumentText,
-    setDocumentTitle: setDocumentTitle
+    setDocumentTitle: setDocumentTitle,
+    setEnhancedDocumentBlob:setEnhancedDocumentBlob
   };
 
   return (

@@ -16,11 +16,12 @@ export default function DocumentFetch() {
 
   async function downloadFile(fileId) {
     setIsLoading(true);
-    const url = beUrl + "api/v1/drive/download?file_id=" + fileId;
+    documentCtx.setDocId(fileId);
+    const url = beUrl + "api/v1/drive/download?file_id=" + fileId
     const headers = {
-      "Content-Type": "application/json",
       "Oauth-Token": `${token}`,
-      "Email": `${email}`
+      "Email": `${email}`,
+      "Accept": "*/*" 
     };
     try {
       const response = await fetch(url, {
@@ -30,37 +31,17 @@ export default function DocumentFetch() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      if(data) {
-        documentCtx.setDocumentTitle(data.document_title || "Untitled Document");
-        documentCtx.setDocumentText(data.original_html);
-        documentCtx.setEnhancedDocumentText(data.enhanced_html || createEnhancedHtml(data.original_html));
-      }
+      const blob = await response.blob();
+      documentCtx.setDocumentTitle(`Document - ${fileId}`);
+      documentCtx.setDocumentBlob(blob);
     } catch (error) {
       console.error("Error downloading document:", error);
     } finally {
       setIsLoading(false);
     }
-  }      
-
-  function createEnhancedHtml(html) {
-    if (!html) return "";
-    
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    const paragraphs = doc.querySelectorAll('p');
-    const colors = ['#f0f8ff', '#f5f5dc', '#e6e6fa', '#f0fff0'];
-    
-    paragraphs.forEach((p, index) => {
-      p.style.backgroundColor = colors[index % colors.length];
-      p.style.padding = '10px';
-      p.style.borderRadius = '5px';
-      p.style.margin = '10px 0';
-    });
-    
-    return doc.body.innerHTML;
   }
+
+
 
   function handleClick() {
     if(sessionStorage.getItem("fileId")) {

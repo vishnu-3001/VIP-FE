@@ -32,7 +32,12 @@ export default function DocumentFetch() {
         throw new Error("Network response was not ok");
       }
       const blob = await response.blob();
-      documentCtx.setDocumentTitle(`Document - ${fileId}`);
+      for (const [key, value] of response.headers.entries()) {
+        if(key==='x-document-title'){
+          documentCtx.setDocumentTitle(value);
+          sessionStorage.setItem("title",value);
+        }
+      }
       documentCtx.setDocumentBlob(blob);
     } catch (error) {
       console.error("Error downloading document:", error);

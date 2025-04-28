@@ -20,12 +20,15 @@ export default function Login() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams);
     const token = urlParams.get("token");
     const email=urlParams.get("email")
+    const refreshToken = urlParams.get("refresh_token");
     if (token) {
       authContext.login(token); 
       sessionStorage.setItem("token", token); 
       sessionStorage.setItem("email",email);
+      sessionStorage.setItem("refresh_token", refreshToken);
       navigate("/DocumentFetch", { replace: true }); 
     }
   }, []);

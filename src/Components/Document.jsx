@@ -68,7 +68,6 @@ export default function Document() {
       }
 
       const blob = await response.blob();
-      setDocumentTitle(`Document - ${doc_id}`);
       setEnhancedDocumentBlob(blob);
 
     } catch (error) {
@@ -82,7 +81,10 @@ export default function Document() {
       console.log("Enhanced Document is not available please try later");
       return;
     }
-    const url = `${beUrl}api/v1/drive/uploadDoc`;
+    const token=sessionStorage.getItem("token");
+    const refresh_token=sessionStorage.getItem("refresh_token");
+    const title=`${sessionStorage.getItem("title")}-enhanced`;
+    const url = `${beUrl}api/v1/drive/uploadDoc/?token=${token}&refresh_token=${refresh_token}&title=${title}`;
     const formData=new FormData();
     formData.append("file",documentCtx.enhancedDocumentBlob,`${doc_id}-enhanced.docx`);
     try{

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import DocumentContext from "../Store/DocumentContext";
 export default function EnhancedDocument(){
     const ctx=useContext(DocumentContext);
-    const sections=ctx.document.enhanced
+    const sections=ctx.document.enhanced;
     return(
         <div>
             {sections?.length > 0 && (

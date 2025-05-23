@@ -1,0 +1,12 @@
+.graphContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.filterContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-left:2%;
+}

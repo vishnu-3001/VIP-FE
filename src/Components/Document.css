@@ -1,8 +1,9 @@
 .document-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+   margin-left: 2%;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
   }
   
   .document-title {
@@ -13,8 +14,9 @@
   
   .document-tabs {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    margin-left: 0%;
+    margin-right: 4%;
   }
   
   .document-tabs button {
@@ -25,6 +27,7 @@
     cursor: pointer;
     border-radius: 5px;
     font-weight: bold;
+    margin-bottom: 5%;
   }
   
   .document-tabs button.active {
@@ -33,7 +36,6 @@
   }
   
   .document-view-container {
-    border: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;
   }
@@ -43,9 +45,16 @@
     background-color: white;
   }
   
-  .document-content {
-    line-height: 1.6;
-  }
+
+.document-content {
+    max-height: 80vh;       
+    overflow-y: auto;       
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
   
   .document-content img {
     max-width: 100%;

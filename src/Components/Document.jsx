@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import DocumentContext from "../Store/DocumentContext";
 import { renderAsync } from "docx-preview";
+import Analysis from "./Analysis";
 import "./Document.css";
 
 export default function Document() {
@@ -10,7 +11,6 @@ export default function Document() {
     enhancedDocumentBlob,
     documentTitle,
     doc_id,
-    setDocumentTitle,
     setEnhancedDocumentBlob,
   } = documentCtx;
 
@@ -35,7 +35,7 @@ export default function Document() {
       const htmlBlob = new Blob([documentText], { type: "text/html" });
       renderAsync(htmlBlob, container);
     }
-  }, [viewMode, enhancedDocumentBlob, documentText]);
+  }, [viewMode, documentText, enhancedDocumentBlob]);
 
   if (!documentText) {
     return (
@@ -105,9 +105,8 @@ export default function Document() {
 
   return (
     <div className="document-container">
-      <h1 className="document-title">{documentTitle}</h1>
-
       <div className="document-tabs">
+        <h1 className="document-title">{documentTitle}</h1>
         <button 
           className={viewMode === "original" ? "active" : ""} 
           onClick={() => setViewMode("original")}
@@ -120,6 +119,9 @@ export default function Document() {
           onClick={handleEnhancedDocument}
         >
           {isLoading ? "Loading..." : "Enhanced Document"}
+        </button>
+        <button className={viewMode === "analysis" ? "active" : ""} onClick={()=>setViewMode("analysis")}>
+          Analysis
         </button>
         <button
           disabled={!enhancedDocumentBlob || isLoading}
@@ -136,7 +138,6 @@ export default function Document() {
               id="original-docx-container"
               className="document-content"
             >
-              {/* Original DOCX dynamically injected */}
             </div>
           </div>
         )}
@@ -150,12 +151,23 @@ export default function Document() {
                 id="enhanced-docx-container"
                 className="document-content"
               >
-                {/* Enhanced DOCX dynamically injected */}
               </div>
             )}
           </div>
         )}
+        {viewMode === "analysis"&&(
+          <Analysis></Analysis>
+        )}
       </div>
+      { viewMode === "enhanced" && (
+      <div style={{marginLeft:"5%"}}>
+        <h3>Legend</h3>
+        <p style={{backgroundColor:"#d6eaf8",padding:"10px"}}>Project-Update</p>
+        <p style={{backgroundColor:"#e8daef",padding:"10px"}}>Meeting notes</p>
+        <p style={{backgroundColor:"#ffdab9",padding:"10px"}}>Todo</p>
+        <p style={{backgroundColor:"#fffacd",padding:"10px"}}>Feedback</p>
+        <p style={{backgroundColor:"#d5f5e3",padding:"10px"}}>Other</p>
+      </div>)}
     </div>
   );
 }

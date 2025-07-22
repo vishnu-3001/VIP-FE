@@ -17,6 +17,7 @@ export default function DocumentFetch() {
   async function downloadFile(fileId) {
     setIsLoading(true);
     documentCtx.setDocId(fileId);
+    sessionStorage.setItem("fileId", fileId);
     const url = beUrl + "api/v1/drive/download?file_id=" + fileId
     const headers = {
       "Oauth-Token": `${token}`,

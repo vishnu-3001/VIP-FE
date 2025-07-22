@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import DocumentContext from "../Store/DocumentContext";
 import { renderAsync } from "docx-preview";
-import Analysis from "./Analysis";
+import DataAnalysis from "./DataAnalysis";
+import EnhancedDocument from "./EnhancedDocument";
 import "./Document.css";
 
 export default function Document() {
@@ -26,10 +27,6 @@ export default function Document() {
     if (!container) return;
 
     container.innerHTML = "";
-
-    if (viewMode === "enhanced" && enhancedDocumentBlob) {
-      renderAsync(enhancedDocumentBlob, container);
-    }
 
     if (viewMode === "original" && documentText) {
       const htmlBlob = new Blob([documentText], { type: "text/html" });
@@ -147,27 +144,14 @@ export default function Document() {
             {notFound ? (
               <p>Document is still processing, please try after some time.</p>
             ) : (
-              <div
-                id="enhanced-docx-container"
-                className="document-content"
-              >
-              </div>
+              <EnhancedDocument enhancedDocumentBlob={enhancedDocumentBlob} />
             )}
           </div>
         )}
         {viewMode === "analysis"&&(
-          <Analysis></Analysis>
+          <DataAnalysis></DataAnalysis>
         )}
       </div>
-      { viewMode === "enhanced" && (
-      <div style={{marginLeft:"5%"}}>
-        <h3>Legend</h3>
-        <p style={{backgroundColor:"#d6eaf8",padding:"10px"}}>Project-Update</p>
-        <p style={{backgroundColor:"#e8daef",padding:"10px"}}>Meeting notes</p>
-        <p style={{backgroundColor:"#ffdab9",padding:"10px"}}>Todo</p>
-        <p style={{backgroundColor:"#fffacd",padding:"10px"}}>Feedback</p>
-        <p style={{backgroundColor:"#d5f5e3",padding:"10px"}}>Other</p>
-      </div>)}
     </div>
   );
 }

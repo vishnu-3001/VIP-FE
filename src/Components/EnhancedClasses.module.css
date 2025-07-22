@@ -1,0 +1,27 @@
+.legend{
+    display: flex;
+    flex-direction: row;
+}
+.midContainer {
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+    gap: 20px;
+  }
+  
+  .documentContent {
+    flex: 3;
+    overflow-y: auto;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .chatContainer {
+    flex: 1;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  

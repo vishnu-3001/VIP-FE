@@ -1,0 +1,17 @@
+.text{
+    width:100%;
+    resize: none;
+    overflow-y: auto;
+    height: 5.5rem;
+    line-height: 1.1rem;
+    padding:10px;
+}
+.icon{
+    width:10px;
+    height:10px;
+}
+.messageContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: flex-end;
+}

@@ -1,8 +1,9 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { useEffect,useContext, useState } from "react";
-import classes from "./Analysis.module.css"
 import DocumentContext from "../Store/DocumentContext";
 import YearMonthAnalysis from "./YearMonthAnalysis";
+import classes from "./Analysis.module.css";
+import Chat from "./Chat";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -38,7 +39,7 @@ export default function DataAnalysis(){
         fetchData()
     },[])
     return (
-            <div>
+            <div >
                 <YearMonthAnalysis data={data} />
             </div>
     );

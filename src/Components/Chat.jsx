@@ -2,7 +2,6 @@ import classes from "./Chat.module.css";
 import icon from "../Util/up-arrow-svgrepo-com.svg"
 import { useState,useRef } from "react";
 
-// const resp=[{"question":"helllo",answer:"hi"},{"question":"how are you?",answer:"good"},{"question":"what is this?",answer:"this is a chat"}];
 export default function Chat(){
     const [chatHistory, setChatHistory] = useState([]);
     const inputRef=useRef(null);
@@ -23,12 +22,13 @@ export default function Chat(){
         }
         const data=await response.json();
         console.log("Response:", data);
-        setChatHistory(prevHistory => [...prevHistory, { question: data.question, answer: data.response[0] }]);
+        setChatHistory(prevHistory => [...prevHistory, { question: data.question, answer: data.response }]);
+        console.log(chatHistory)
         inputRef.current.value = "";
       }
     return(
         <div>
-            <h3>Chat with the document</h3>
+            <h3>Ask questions about analysis</h3>
             <div className={classes.messageContainer}>
                 <textarea className={classes.text} ref={inputRef}></textarea>
                 <button onClick={handleClick}><img src={icon} alt="send" className={classes.icon}/></button>

@@ -13,8 +13,8 @@
 }
 
 .chartWrapper {
-    width: 800px;
-    height: 400px;
+    width: 700px;
+    height: 350px;
 }
 
 .filterContainer {
@@ -25,3 +25,4 @@
     padding: 10px;
     border-radius: 8px;
 }
+

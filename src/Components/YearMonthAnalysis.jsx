@@ -3,6 +3,7 @@ import { Bar } from "react-chartjs-2";
 import classes from "./yearMonthAnalysis.module.css"
 export default function YearMonthAnalysis(props) {
     const [checked, setChecked] = useState('year');
+    
     if (!props.data) {
         return <div>Loading...</div>;
     }
@@ -61,23 +62,19 @@ export default function YearMonthAnalysis(props) {
             return label.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         }
     
-        const labels = ["Summary"];  // Single category on x-axis
+        const labels = ["Summary"];  
     
         const datasets = Object.keys(summaryData).map(label => ({
             label: prettifyLabel(label),
-            data: [summaryData[label]],  // Single value per dataset
+            data: [summaryData[label]],  
             backgroundColor: colorMap[label] || "rgba(200, 200, 200, 0.5)"
         }));
     
         return { labels, datasets };
     }
-    
-    
-
     function handleCheckboxChange(event) {
         setChecked(event.target.value);
     }
-
     const processedData = processData();
     const processedSummaryData = processSummaryData(props.data?.component_data || {});
 
@@ -94,7 +91,7 @@ export default function YearMonthAnalysis(props) {
                         <Bar data={processedData.yearly_data} options={{ responsive: true, maintainAspectRatio: false }} /> 
                     }
                     {checked === "month" &&
-                        <Bar data={processedData.yearly_data} options={{ responsive: true, maintainAspectRatio: false }} /> 
+                        <Bar data={processedData.monthly_data} options={{ responsive: true, maintainAspectRatio: false }} />  
                     }
                     {checked === "semester" &&
                         <Bar data={processedData.semester_data} options={{ responsive: true, maintainAspectRatio: false }} /> 
@@ -129,6 +126,28 @@ export default function YearMonthAnalysis(props) {
                         Summary
                     </label>
                 </div>
+            </div>
+            <div>
+                        {
+                            checked==="year"&&
+                            <p>{props.data.yearly_report}</p>
+                        }
+                        {
+                            checked==="month"&&
+                            <p>{props.data.monthly_report}</p>
+                        }
+                        {
+                            checked==="semester"&&
+                            <p>{props.data.semester_report}</p>
+                        }
+                        {/* {
+                            checked==="quarterly"&&
+                            <p>{props.data.quarterly_report}</p>
+                        }
+                        {
+                            checked==="summary"&&
+                            <p>{props.data.summary_report}</p>
+                        } */}
             </div>
         </div>
     );
